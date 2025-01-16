@@ -2,9 +2,14 @@ package main
 
 import (
 	"goth/server"
+	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	server := server.NewServer(":8080")
+	godotenv.Load()
+
+	server := server.NewServer(os.Getenv("PORT"))
 	server.Init()
 }
