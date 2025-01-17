@@ -2,10 +2,12 @@ package pages
 
 import (
     "goth/web/layout"
+    "goth/web/utils"
 )
 
 templ Index() {
     @layout.Base() {
         <h1>Hello from index 2444</h1>
+        { webUtils.User(ctx).Email }
     }
 }

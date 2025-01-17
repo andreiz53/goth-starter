@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"goth/cookies"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -9,12 +10,14 @@ import (
 )
 
 type Server struct {
-	ListenAddr string
+	listenAddr  string
+	cookieStore cookies.CookieStore
 }
 
-func NewServer(addr string) Server {
+func NewServer(addr string, cs cookies.CookieStore) Server {
 	return Server{
-		ListenAddr: addr,
+		listenAddr:  addr,
+		cookieStore: cs,
 	}
 }
 
@@ -24,6 +27,7 @@ func (s Server) Init() {
 
 	router.Use(middleware.Logger)
 	router.Use(middleware.Recoverer)
+	router.Use(s.WithUser)
 
 	fs := http.FileServer(http.Dir("web/assets"))
 	router.Handle("/assets/*", http.StripPrefix("/assets", fs))
@@ -38,6 +42,6 @@ func (s Server) Init() {
 	router.Post("/register", s.handleRegister)
 	router.Post("/logout", s.handleLogout)
 
-	fmt.Printf("Server starting on port %s\n", s.ListenAddr)
-	http.ListenAndServe(s.ListenAddr, router)
+	fmt.Printf("Server starting on port %s\n", s.listenAddr)
+	http.ListenAndServe(s.listenAddr, router)
 }

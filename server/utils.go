@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"goth/cookies"
 	"goth/types"
 	"net/http"
 	"time"
@@ -43,4 +44,25 @@ func AddNotification(w http.ResponseWriter, t types.NotificationTypeKey, notific
 		Path:    "/",
 		Expires: time.Now().Add(2 * time.Second),
 	})
+}
+
+func (s Server) getAuthenticatedUser(r *http.Request) types.AuthenticatedUser {
+	userSession := s.cookieStore.GetUserSession(r)
+	user, ok := userSession.Values[cookies.UserKey].(types.AuthenticatedUser)
+	if !ok {
+		return types.AuthenticatedUser{}
+	}
+	return user
+}
+
+func (s Server) logoutUser(w http.ResponseWriter, r *http.Request) {
+	userSession := s.cookieStore.GetUserSession(r)
+	userSession.Values[cookies.UserKey] = types.AuthenticatedUser{}
+	userSession.Save(r, w)
+}
+
+func (s Server) loginUser(w http.ResponseWriter, r *http.Request, user types.AuthenticatedUser) {
+	userSession := s.cookieStore.GetUserSession(r)
+	userSession.Values[cookies.UserKey] = user
+	userSession.Save(r, w)
 }

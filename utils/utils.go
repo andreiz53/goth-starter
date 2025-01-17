@@ -3,18 +3,18 @@ package utils
 import (
 	"errors"
 	"fmt"
+	"log"
 	"reflect"
 
-	"github.com/sethvargo/go-password/password"
 	"golang.org/x/crypto/bcrypt"
 )
 
-func EncryptPassword(pw string) (string, error) {
+func EncryptPassword(pw string) string {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
 	if err != nil {
-		return "", nil
+		log.Fatal("could not encrypt password")
 	}
-	return string(bytes), nil
+	return string(bytes)
 }
 
 func SetMapFieldToStruct(myStruct interface{}, fieldName string, fieldValue interface{}) error {
@@ -57,23 +57,4 @@ func BoolToCheckboxValue(val bool) string {
 }
 func CheckboxValueToBool(val string) bool {
 	return val == "on"
-}
-func GeneratePassword() (string, error) {
-	pw, err := password.Generate(16, 5, 5, false, false)
-	if err != nil {
-		return "", err
-	}
-	return pw, nil
-}
-
-func GenerateEncryptedPassword() (string, error) {
-	pw, err := password.Generate(32, 5, 5, false, false)
-	if err != nil {
-		return "", err
-	}
-	encPw, err := EncryptPassword(pw)
-	if err != nil {
-		return "", err
-	}
-	return encPw, nil
 }

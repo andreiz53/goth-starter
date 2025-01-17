@@ -1,6 +1,7 @@
 package main
 
 import (
+	"goth/cookies"
 	"goth/server"
 	"os"
 
@@ -10,6 +11,7 @@ import (
 func main() {
 	godotenv.Load()
 
-	server := server.NewServer(os.Getenv("PORT"))
+	cookieStore := cookies.NewCookieStore()
+	server := server.NewServer(os.Getenv("PORT"), cookieStore)
 	server.Init()
 }

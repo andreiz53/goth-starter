@@ -1,0 +1,37 @@
+package layout
+
+import (
+    "goth/web/utils"
+)
+
+
+templ Header() {
+    {{ user := webUtils.User(ctx) }}
+    <div class="navbar bg-base-300">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl">family</a>
+  </div>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1">
+      
+      if webUtils.LoggedIn(ctx) {
+        <li>
+        <details>
+          <summary>{ user.Email }</summary>
+          <ul class="bg-base-300 rounded-t-none p-2">
+            <li><a>Account Settings</a></li>
+            <li>
+                <button hx-post="/logout">Logout</button>
+            </li>
+          </ul>
+        </details>
+      </li>
+      } else {
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
+      }
+      
+    </ul>
+  </div>
+</div>
+}
