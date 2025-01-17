@@ -34,7 +34,7 @@ func Header() templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		user := webUtils.User(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"navbar bg-base-300\"><div class=\"flex-1\"><a class=\"btn btn-ghost text-xl\">family</a></div><div class=\"flex-none\"><ul class=\"menu menu-horizontal px-1\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"navbar bg-base-300\"><div class=\"flex-1\"><a class=\"btn btn-ghost text-xl\" href=\"/\">family</a></div><div class=\"flex-none\"><ul class=\"menu menu-horizontal px-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -52,7 +52,7 @@ func Header() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</summary><ul class=\"bg-base-300 rounded-t-none p-2\"><li><a>Account Settings</a></li><li><button hx-post=\"/logout\">Logout</button></li></ul></details></li>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</summary><ul class=\"bg-base-300 rounded-t-none p-2\"><li><a href=\"/account/settings\">Account Settings</a></li><li><button hx-post=\"/account/logout\">Logout</button></li></ul></details></li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

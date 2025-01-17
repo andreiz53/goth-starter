@@ -37,10 +37,15 @@ func (s Server) Init() {
 	router.Get("/", s.renderIndex)
 	router.Get("/login", s.renderLogin)
 	router.Get("/register", s.renderRegister)
-
 	router.Post("/login", s.handleLogin)
 	router.Post("/register", s.handleRegister)
-	router.Post("/logout", s.handleLogout)
+
+	accountRouter := chi.NewRouter()
+	accountRouter.Use(s.WithAuth)
+	accountRouter.Post("/logout", s.handleLogout)
+	accountRouter.Get("/settings", s.renderAccountSettings)
+
+	router.Mount("/account", accountRouter)
 
 	fmt.Printf("Server starting on port %s\n", s.listenAddr)
 	http.ListenAndServe(s.listenAddr, router)

@@ -9,7 +9,7 @@ templ Header() {
     {{ user := webUtils.User(ctx) }}
     <div class="navbar bg-base-300">
   <div class="flex-1">
-    <a class="btn btn-ghost text-xl">family</a>
+    <a class="btn btn-ghost text-xl" href="/">family</a>
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
@@ -19,9 +19,9 @@ templ Header() {
         <details>
           <summary>{ user.Email }</summary>
           <ul class="bg-base-300 rounded-t-none p-2">
-            <li><a>Account Settings</a></li>
+            <li><a href="/account/settings">Account Settings</a></li>
             <li>
-                <button hx-post="/logout">Logout</button>
+                <button hx-post="/account/logout">Logout</button>
             </li>
           </ul>
         </details>

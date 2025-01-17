@@ -17,9 +17,9 @@ func (s Server) handleRegister(w http.ResponseWriter, r *http.Request) {
 	// encrypt password
 	encPw := utils.EncryptPassword(values.Password)
 	// insert into db
+	// check for error and duplicate key
 	_ = encPw
 
-	// set user in cookie store
 	user := types.AuthenticatedUser{
 		Email:    values.Email,
 		LoggedIn: true,
@@ -28,7 +28,23 @@ func (s Server) handleRegister(w http.ResponseWriter, r *http.Request) {
 	Redirect(w, r, "/")
 }
 
-func (s Server) handleLogin(w http.ResponseWriter, r *http.Request) {}
+func (s Server) handleLogin(w http.ResponseWriter, r *http.Request) {
+	values, errors := parseAndValidateForm[types.LoginUserValues](r)
+	if *errors != (types.LoginUserErrors{}) {
+		RenderComponent(w, r, forms.LoginForm(values, *errors))
+		return
+	}
+
+	// get the user from db
+	// compare passwords
+
+	user := types.AuthenticatedUser{
+		Email:    values.Email,
+		LoggedIn: true,
+	}
+	s.loginUser(w, r, user)
+	Redirect(w, r, "/")
+}
 
 func (s Server) handleLogout(w http.ResponseWriter, r *http.Request) {
 	s.logoutUser(w, r)
