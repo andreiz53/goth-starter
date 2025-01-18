@@ -32,8 +32,6 @@ func (s Server) Init() {
 	fs := http.FileServer(http.Dir("web/assets"))
 	router.Handle("/assets/*", http.StripPrefix("/assets", fs))
 
-	router.Get("/ping", func(w http.ResponseWriter, r *http.Request) { w.Write([]byte("pong")) })
-
 	router.Get("/", s.renderIndex)
 	router.Get("/login", s.renderLogin)
 	router.Get("/register", s.renderRegister)

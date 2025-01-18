@@ -10,8 +10,7 @@ import (
 
 func main() {
 	godotenv.Load()
-
-	cookieStore := cookies.NewCookieStore()
+	cookieStore := cookies.NewCookieStore(os.Getenv("SESSION_KEY"))
 	server := server.NewServer(os.Getenv("PORT"), cookieStore)
 	server.Init()
 }

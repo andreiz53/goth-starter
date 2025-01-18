@@ -4,7 +4,6 @@ import (
 	"encoding/gob"
 	"goth/types"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/sessions"
 )
@@ -19,8 +18,8 @@ const (
 	UserAccessToken = "user_access_token"
 )
 
-func NewCookieStore() CookieStore {
-	store := sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
+func NewCookieStore(sessionKey string) CookieStore {
+	store := sessions.NewCookieStore([]byte(sessionKey))
 	gob.Register(types.AuthenticatedUser{})
 	return CookieStore{
 		Store: store,

@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"goth/types"
 	"goth/utils"
 	"goth/web/components/forms"
@@ -10,10 +11,10 @@ import (
 func (s Server) handleRegister(w http.ResponseWriter, r *http.Request) {
 	values, errors := parseAndValidateForm[types.RegisterUserValues](r)
 	if *errors != (types.RegisterUserErrors{}) {
+		fmt.Printf("got errors %+v\n", errors)
 		RenderComponent(w, r, forms.RegisterForm(values, *errors))
 		return
 	}
-
 	// encrypt password
 	encPw := utils.EncryptPassword(values.Password)
 	// insert into db

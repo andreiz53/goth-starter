@@ -1,7 +1,9 @@
 package types
 
-const (
-	UserPasswordMinLength = 8
+import (
+	"goth/validate"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type User struct {
@@ -15,8 +17,8 @@ type AuthenticatedUser struct {
 }
 
 type RegisterUserValues struct {
-	Email    string
-	Password string
+	Email    string `validate:"required,email"`
+	Password string `validate:"required,gte=8"`
 }
 type RegisterUserErrors struct {
 	Email    string
@@ -25,8 +27,8 @@ type RegisterUserErrors struct {
 }
 
 type LoginUserValues struct {
-	Email    string
-	Password string
+	Email    string `validate:"required,email"`
+	Password string `validate:"required,gte=8"`
 }
 type LoginUserErrors struct {
 	Email    string
@@ -37,7 +39,20 @@ type LoginUserErrors struct {
 func (values RegisterUserValues) Validate() *RegisterUserErrors {
 	errors := &RegisterUserErrors{}
 
-	// TODO: validate through validator pkg
+	v := validate.Validator
+	err := v.Struct(values)
+	if err != nil {
+		if validationErrors, ok := err.(validator.ValidationErrors); ok {
+			for _, fieldError := range validationErrors {
+				switch fieldError.Field() {
+				case "Email":
+					errors.Email = "Email is invalid"
+				case "Password":
+					errors.Password = "At least 8 characters"
+				}
+			}
+		}
+	}
 	return errors
 }
 
@@ -48,7 +63,20 @@ func (errors *RegisterUserErrors) SetOtherError(message string) {
 func (values LoginUserValues) Validate() *LoginUserErrors {
 	errors := &LoginUserErrors{}
 
-	// TODO: validate through validator pkg
+	v := validate.Validator
+	err := v.Struct(values)
+	if err != nil {
+		if validationErrors, ok := err.(validator.ValidationErrors); ok {
+			for _, fieldError := range validationErrors {
+				switch fieldError.Field() {
+				case "Email":
+					errors.Email = "Email is invalid"
+				case "Password":
+					errors.Password = "At least 8 characters"
+				}
+			}
+		}
+	}
 	return errors
 }
 
