@@ -6,6 +6,7 @@ import (
 	"log"
 	"reflect"
 
+	"github.com/gobeam/stringy"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -19,7 +20,9 @@ func EncryptPassword(pw string) string {
 
 func SetMapFieldToStruct(myStruct interface{}, fieldName string, fieldValue interface{}) error {
 	structValue := reflect.ValueOf(myStruct).Elem()
-	structFieldValue := structValue.FieldByName(fieldName)
+	str := stringy.New(fieldName)
+	pascalCase := str.PascalCase()
+	structFieldValue := structValue.FieldByName(pascalCase.Get())
 
 	if !structFieldValue.IsValid() {
 		return fmt.Errorf("field: %s does not exist in struct", fieldName)

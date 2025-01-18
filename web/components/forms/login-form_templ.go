@@ -41,7 +41,7 @@ func LoginForm(values types.LoginUserValues, errors types.LoginUserErrors) templ
 		}
 		templ_7745c5c3_Err = inputs.Input(inputs.InputProps{
 			Type:        "text",
-			Name:        "Email",
+			Name:        "email",
 			Value:       values.Email,
 			Error:       errors.Email,
 			Placeholder: "Email",
@@ -52,7 +52,7 @@ func LoginForm(values types.LoginUserValues, errors types.LoginUserErrors) templ
 		}
 		templ_7745c5c3_Err = inputs.Input(inputs.InputProps{
 			Type:        "password",
-			Name:        "Password",
+			Name:        "password",
 			Value:       values.Password,
 			Error:       errors.Password,
 			Placeholder: "Password",
