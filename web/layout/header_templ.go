@@ -34,7 +34,7 @@ func Header() templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		user := webUtils.User(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"navbar bg-base-300\"><div class=\"flex-1\"><a class=\"btn btn-ghost text-xl\" href=\"/\">family</a></div><div class=\"flex-none\"><ul class=\"menu menu-horizontal px-1\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"navbar bg-base-300\"><div class=\"flex-1\"><a class=\"btn btn-ghost text-xl\" href=\"/\">logo</a></div><div class=\"flex-none\"><ul class=\"menu menu-horizontal px-1\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
